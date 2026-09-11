@@ -13,7 +13,7 @@ The lab demonstrates how a Windows Server can provide reliable name resolution f
 - Configure reverse lookup for IP-to-hostname resolution.
 - Create and validate host, pointer, and alias records.
 - Test DNS resolution and network connectivity from a client system.
-- Document the configuration using sanitized examples and original evidence.
+- Document the configuration using sanitized examples and clearly labelled interface references.
 
 ## Environment
 
@@ -77,13 +77,17 @@ The domain and addresses above are documentation-only examples. Real lab identif
 ```text
 active-directory-dns-lab
 ├── docs
+│   ├── images
+│   │   └── dns reference screenshots
 │   └── dns-setup.md
 └── README.md
 ```
 
-## Evidence To Add
+## Screenshot Notice
 
-Only original screenshots from the completed lab should be added. Recommended evidence includes:
+The current screenshots are generic Windows Server interface references supplied from a senior's logbook. They contain no student identity and are included only to illustrate where DNS settings are located. They are not presented as proof of my own lab execution and should be replaced with original screenshots when available.
+
+Recommended original evidence to add later includes:
 
 1. DNS role visible in Server Manager.
 2. Forward lookup zone and sanitized `A` record.
@@ -93,7 +97,7 @@ Only original screenshots from the completed lab should be added. Recommended ev
 6. Successful reverse `nslookup` result.
 7. Successful hostname connectivity test.
 
-Do not publish passwords, private keys, public IP addresses, student records, unrelated university submissions, or another student’s work.
+Do not publish passwords, private keys, public IP addresses, student records or unrelated university submissions. Third-party reference material should only be published with the owner's permission and must remain clearly labelled.
 
 ## Security Considerations
 
@@ -116,4 +120,3 @@ Do not publish passwords, private keys, public IP addresses, student records, un
 ## Future Update
 
 The Active Directory Domain Services configuration will be added as the next phase of this repository.
-

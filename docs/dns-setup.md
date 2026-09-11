@@ -2,6 +2,10 @@
 
 This guide records the DNS workflow used for the lab. Replace the documentation-only examples with sanitized values that match your own environment.
 
+## Reference Screenshot Notice
+
+The interface images below were supplied from a senior's logbook and have been sanitized for temporary reference use. They illustrate the Windows Server DNS workflow but are not presented as evidence of my own lab execution. They should be replaced with original screenshots when available.
+
 ## Example Addressing
 
 | Item | Documentation example |
@@ -36,6 +40,14 @@ ipconfig /all
 6. Accept the required features and complete the installation.
 7. Open **Tools > DNS**.
 
+![DNS Server role selected in Server Manager](images/dns-role-selection.png)
+
+*Reference interface: selecting the DNS Server role.*
+
+![DNS role visible in Server Manager](images/dns-manager-dashboard.png)
+
+*Reference interface: DNS role visible after installation.*
+
 ## 3. Create a Forward Lookup Zone
 
 1. Expand the server in DNS Manager.
@@ -44,6 +56,18 @@ ipconfig /all
 4. Enter the sanitized lab domain name.
 5. Select the appropriate dynamic-update option for the environment.
 6. Complete the wizard.
+
+![New Zone Wizard welcome screen](images/forward-zone-wizard.png)
+
+*Reference interface: opening the New Zone Wizard.*
+
+![Primary zone selected in the New Zone Wizard](images/primary-zone-selection.png)
+
+*Reference interface: selecting a primary DNS zone.*
+
+![Secure dynamic update option](images/secure-dynamic-updates.png)
+
+*Reference interface: secure dynamic updates for an Active Directory integrated zone.*
 
 ## 4. Create an A Record
 
@@ -61,6 +85,10 @@ ipconfig /all
 4. Select the appropriate dynamic-update option.
 5. Complete the wizard.
 
+![IPv4 reverse lookup zone selected](images/ipv4-reverse-zone.png)
+
+*Reference interface: selecting an IPv4 reverse lookup zone.*
+
 If the A record was created before the reverse zone, create its PTR record manually or recreate the host record with the pointer option enabled.
 
 ## 6. Create a CNAME Alias
@@ -70,6 +98,10 @@ If the A record was created before the reverse zone, create its PTR record manua
 3. Enter the alias name, such as `www`.
 4. Browse to and select the target host record.
 5. Save the alias.
+
+![New Alias CNAME option in DNS Manager](images/cname-menu.png)
+
+*Reference interface: opening the CNAME record option.*
 
 ## 7. Configure the Client
 
@@ -130,8 +162,8 @@ The alias should resolve through its target host.
 
 ## Publication Checklist
 
-- Use only screenshots captured from your own lab.
+- Prefer screenshots captured from your own lab.
+- Label temporary third-party interface references clearly and publish them only with the owner's permission.
 - Mask real usernames, passwords, public addresses and identifying information.
 - Use consistent sanitized hostnames and addresses throughout the documentation.
 - Confirm that no screenshot belongs to another student or university submission.
-
