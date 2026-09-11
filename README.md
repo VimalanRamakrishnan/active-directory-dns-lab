@@ -1,57 +1,88 @@
-# Active Directory and DNS Lab
+<p align="center">
+  <img src="docs/images/dns-network-banner.svg" alt="Active Directory and DNS Lab network banner" width="100%">
+</p>
 
-This repository documents a university Windows Server lab focused on deploying and validating Domain Name System services. The DNS phase is documented first; the Active Directory phase will be added separately when the supporting material is available.
+<h1 align="center">Active Directory and DNS Lab</h1>
 
-## Project Overview
+<p align="center">
+  A Windows Server lab demonstrating structured name resolution, DNS zone management and client-side validation.
+</p>
 
-The lab demonstrates how a Windows Server can provide reliable name resolution for devices inside a controlled network. It covers DNS role installation, forward and reverse lookup zones, common DNS records, and client-side testing.
+<p align="center">
+  <img src="https://img.shields.io/badge/Windows_Server-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Windows Server">
+  <img src="https://img.shields.io/badge/DNS-Name_Resolution-38BDF8?style=for-the-badge" alt="DNS">
+  <img src="https://img.shields.io/badge/Networking-Lab-2563EB?style=for-the-badge" alt="Networking Lab">
+  <img src="https://img.shields.io/badge/Phase_1-DNS_Complete-16A34A?style=for-the-badge" alt="DNS phase complete">
+</p>
+
+<p align="center">
+  <a href="#lab-overview">Overview</a> •
+  <a href="#dns-resolution-flow">DNS Flow</a> •
+  <a href="#implementation">Implementation</a> •
+  <a href="#reference-gallery">Gallery</a> •
+  <a href="docs/dns-setup.md">Setup Guide</a>
+</p>
+
+---
+
+## Lab Overview
+
+This repository documents the DNS phase of a university Windows Server lab. It demonstrates how a DNS server translates hostnames into IPv4 addresses, performs reverse lookups and provides consistent name resolution to connected clients. The Active Directory phase will be added when its supporting material is available.
+
+| Lab focus | Outcome |
+| :--- | :--- |
+| **DNS role deployment** | DNS Server installed and available through Server Manager |
+| **Forward lookup** | Hostnames resolved through `A` and `CNAME` records |
+| **Reverse lookup** | IPv4 addresses resolved through `PTR` records |
+| **Client validation** | Resolution checked with `nslookup`, `ping` and DNS cache tools |
+
+## DNS Resolution Flow
+
+```mermaid
+flowchart LR
+    A["Client query"] --> B{"Query type"}
+    B -->|Hostname| C["Forward zone<br/>A or CNAME"]
+    B -->|IP address| D["Reverse zone<br/>PTR"]
+    C --> E["Resolved answer"]
+    D --> E
+```
 
 ## Objectives
 
-- Install and configure the DNS Server role on Windows Server.
-- Configure forward lookup for hostname-to-IP resolution.
-- Configure reverse lookup for IP-to-hostname resolution.
-- Create and validate host, pointer, and alias records.
-- Test DNS resolution and network connectivity from a client system.
-- Document the configuration using sanitized examples and clearly labelled interface references.
+| | Objective |
+| :---: | :--- |
+| **01** | Install and configure the DNS Server role on Windows Server. |
+| **02** | Build a forward lookup zone for hostname-to-IP resolution. |
+| **03** | Build an IPv4 reverse lookup zone for IP-to-hostname resolution. |
+| **04** | Create and validate `A`, `PTR` and `CNAME` resource records. |
+| **05** | Test resolution and connectivity from a Windows client. |
 
-## Environment
+## Lab Environment
 
-| Component | Purpose |
-| --- | --- |
-| Windows Server | Hosts and manages the DNS service |
-| Windows client | Tests hostname and reverse resolution |
-| DNS Manager | Creates zones and resource records |
-| PowerShell or Command Prompt | Runs connectivity and DNS tests |
-| Virtual or physical network | Connects the server and client systems |
+| Component | Role in the lab |
+| :--- | :--- |
+| **Windows Server** | Hosts and manages the DNS service |
+| **Windows client** | Generates hostname and reverse-resolution queries |
+| **DNS Manager** | Creates zones and resource records |
+| **PowerShell / Command Prompt** | Runs configuration and validation commands |
+| **Lab network** | Connects the server and client systems |
 
-## DNS Implementation
+## Implementation
 
-### 1. Server preparation
+| Phase | Configuration | Status |
+| :---: | :--- | :---: |
+| **01** | Assign a stable server IPv4 configuration | `Complete` |
+| **02** | Install the DNS Server role | `Complete` |
+| **03** | Create a primary forward lookup zone | `Complete` |
+| **04** | Create an IPv4 reverse lookup zone | `Complete` |
+| **05** | Configure host, pointer and alias records | `Complete` |
+| **06** | Validate forward, reverse and alias resolution | `Complete` |
 
-The DNS server is assigned a static IPv4 address before the role is installed. A stable address ensures that clients can consistently reach the DNS service.
+<p align="center">
+  <a href="docs/dns-setup.md"><strong>Open the complete DNS setup guide →</strong></a>
+</p>
 
-### 2. DNS Server role installation
-
-The DNS Server role is installed through Server Manager using **Add Roles and Features**. After installation, DNS Manager is used to configure zones and records.
-
-### 3. Forward lookup zone
-
-A primary forward lookup zone is created for the lab domain. This zone resolves hostnames to IPv4 addresses using `A` records.
-
-### 4. Reverse lookup zone
-
-An IPv4 reverse lookup zone is created for the lab network. This zone resolves IPv4 addresses back to hostnames using `PTR` records.
-
-### 5. DNS records
-
-- **A record:** Maps a hostname to an IPv4 address.
-- **PTR record:** Maps an IPv4 address back to a hostname.
-- **CNAME record:** Creates an alias that points to an existing host record.
-
-### 6. Validation
-
-The configuration is tested from the server and client using:
+## Validation Commands
 
 ```powershell
 ipconfig /all
@@ -61,16 +92,44 @@ nslookup 192.0.2.10
 ping server.corp.example.test
 ```
 
-The domain and addresses above are documentation-only examples. Real lab identifiers should be removed or masked before screenshots are published.
+> The domain and addresses are documentation-only examples. `192.0.2.0/24` is reserved for documentation and does not expose the original lab network.
 
-## Expected Results
+## Reference Gallery
 
-- The DNS service starts successfully.
-- The client uses the Windows Server address as its preferred DNS server.
-- Forward lookup returns the correct test IPv4 address.
-- Reverse lookup returns the correct fully qualified domain name.
-- The alias resolves to its target host.
-- The client can reach the configured host by name.
+| DNS role installation | Server Manager confirmation |
+| :---: | :---: |
+| ![DNS Server role selection](docs/images/dns-role-selection.png) | ![DNS visible in Server Manager](docs/images/dns-manager-dashboard.png) |
+| **Select the DNS Server role** | **Confirm the installed server role** |
+
+| Forward lookup zone | Primary zone type |
+| :---: | :---: |
+| ![New Zone Wizard](docs/images/forward-zone-wizard.png) | ![Primary DNS zone selection](docs/images/primary-zone-selection.png) |
+| **Open the New Zone Wizard** | **Create a primary DNS zone** |
+
+| Secure updates | Reverse lookup zone |
+| :---: | :---: |
+| ![Secure dynamic updates](docs/images/secure-dynamic-updates.png) | ![IPv4 reverse lookup zone](docs/images/ipv4-reverse-zone.png) |
+| **Restrict dynamic updates** | **Select IPv4 reverse lookup** |
+
+<details>
+<summary><strong>Screenshot source notice</strong></summary>
+
+These generic Windows Server interface images were supplied from a senior's logbook and sanitized for temporary reference use. They illustrate where DNS settings are located but are not presented as proof of my own lab execution. They should be replaced with original screenshots when available and published only with the owner's permission.
+
+</details>
+
+## Security Notes
+
+- Use secure dynamic updates when DNS is integrated with Active Directory.
+- Restrict zone transfers to authorized DNS servers.
+- Apply least privilege to DNS administration.
+- Keep Windows Server patched and review DNS event logs.
+- Avoid exposing internal DNS zones directly to the public internet.
+- Remove real hostnames, credentials and addresses before publishing evidence.
+
+## Skills Demonstrated
+
+`Windows Server` &nbsp; `DNS Administration` &nbsp; `Forward Lookup` &nbsp; `Reverse Lookup` &nbsp; `Resource Records` &nbsp; `Network Testing` &nbsp; `Technical Documentation`
 
 ## Repository Structure
 
@@ -78,45 +137,12 @@ The domain and addresses above are documentation-only examples. Real lab identif
 active-directory-dns-lab
 ├── docs
 │   ├── images
+│   │   ├── dns-network-banner.svg
 │   │   └── dns reference screenshots
 │   └── dns-setup.md
 └── README.md
 ```
 
-## Screenshot Notice
+## Next Phase
 
-The current screenshots are generic Windows Server interface references supplied from a senior's logbook. They contain no student identity and are included only to illustrate where DNS settings are located. They are not presented as proof of my own lab execution and should be replaced with original screenshots when available.
-
-Recommended original evidence to add later includes:
-
-1. DNS role visible in Server Manager.
-2. Forward lookup zone and sanitized `A` record.
-3. Reverse lookup zone and sanitized `PTR` record.
-4. Sanitized `CNAME` record.
-5. Successful forward `nslookup` result.
-6. Successful reverse `nslookup` result.
-7. Successful hostname connectivity test.
-
-Do not publish passwords, private keys, public IP addresses, student records or unrelated university submissions. Third-party reference material should only be published with the owner's permission and must remain clearly labelled.
-
-## Security Considerations
-
-- Use secure dynamic updates when DNS is integrated with Active Directory.
-- Restrict zone transfers to authorized DNS servers.
-- Apply least privilege to DNS administration.
-- Keep Windows Server patched and review DNS event logs.
-- Avoid exposing internal DNS zones directly to the public internet.
-- Sanitize hostnames and IP addresses before publishing documentation.
-
-## Skills Demonstrated
-
-- Windows Server administration
-- DNS installation and configuration
-- Forward and reverse name resolution
-- DNS record management
-- Command-line troubleshooting
-- Network testing and technical documentation
-
-## Future Update
-
-The Active Directory Domain Services configuration will be added as the next phase of this repository.
+Active Directory Domain Services configuration will be added after the original lab material is available.
